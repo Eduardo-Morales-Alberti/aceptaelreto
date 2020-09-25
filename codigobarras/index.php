@@ -1,13 +1,15 @@
 <?php
-
+// Barcode.
 $original = 8414533043847;
-//print(($original%10) . PHP_EOL);
+// Barcode length.
 $count = 0;
 $number = $original;
+// Barcode list of number
 $number_list = [];
 $control_number = 0;
 $number_sum = 0;
 
+// Get number list.
 while($number != 0) {
  $number_value = $number % 10;
  $number = ($number - $number_value) / 10;
@@ -15,6 +17,7 @@ while($number != 0) {
  $count++;
 }
 
+// Result of the barcode number sum.
 for($i = 0; $i < $count; $i++) {
   if ($i == 0) {
     $control_number = $number_list[$i];
@@ -25,11 +28,8 @@ for($i = 0; $i < $count; $i++) {
   }
 }
 
+// Calculate if divisible by 10.
 $result = ($number_sum + $control_number) % 10 == 0 ? "SI" : "NO";
-
-//
-//print("Suma: " . ($number_sum + $control_number). PHP_EOL);
-
 
 $contry_codes = [
   0 => "EEUU",
@@ -43,11 +43,11 @@ $contry_codes = [
   890 => "India",
 ];
 
+// Calculate if the barcode has barcode.
 $country_result = "";
 $country_found = FALSE;
 if ($count > 8 && $count <= 13) {
   foreach ($contry_codes as $code => $contry) {
-    //print("Código: " . $code . ", país: " . $contry . PHP_EOL);
     $code_length = mb_strlen($code);
     $power_number = ($count - $code_length);
     $code_zero = $code * pow(10, $power_number);
@@ -62,11 +62,7 @@ if ($count > 8 && $count <= 13) {
   }
 }
 
+// Only print the result if is different of zero.
 if ($original != 0) {
   print($result . " " . $country_result . PHP_EOL);
 }
-
-
-//print_r($contry_codes);
-//print("Contador: " . $count . PHP_EOL);
-//print_r($number_list);
